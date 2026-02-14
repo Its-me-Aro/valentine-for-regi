@@ -1,165 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Important Questions ❤️</title>
 
 <style>
-    body {
-        height: 100vh;
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(135deg, #ffd1dc, #ffe6eb);
-        font-family: Arial, sans-serif;
-        overflow: hidden;
-    }
+body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ffd1dc, #ffe6eb);
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
 
-    .card {
-        background: white;
-        padding: 40px 50px;
-        border-radius: 20px;
-        text-align: center;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        width: 380px;
-        position: relative;
-        z-index: 10;
-    }
+.card {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    width: 350px;
+}
 
-    .emoji {
-        font-size: 60px;
-        margin-bottom: 10px;
-    }
+button {
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+    transition: 0.3s;
+}
 
-    h1 {
-        font-size: 20px;
-        margin-bottom: 30px;
-        min-height: 60px;
-    }
+#yesBtn {
+    background: #ff4d6d;
+    color: white;
+}
 
-    .buttons {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        position: relative;
-    }
+#noBtn {
+    background: #f1f1f1;
+    position: absolute;
+}
 
-    button {
-        border: none;
-        padding: 12px 26px;
-        font-size: 16px;
-        border-radius: 25px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
+.heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 20px;
+    animation: floatUp 6s linear infinite;
+}
 
-    #yesBtn {
-        background: #ff4d6d;
-        color: white;
-    }
-
-    #noBtn {
-        background: #f1f1f1;
-        position: absolute;
-    }
-
-    .heart {
-        position: fixed;
-        bottom: -10px;
-        font-size: 20px;
-        animation: floatUp 6s linear infinite;
-        opacity: 0.6;
-    }
-
-    @keyframes floatUp {
-        0% { transform: translateY(0); opacity: 0.6; }
-        100% { transform: translateY(-110vh); opacity: 0; }
-    }
+@keyframes floatUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-110vh); opacity: 0; }
+}
 </style>
 </head>
 
 <body>
 
 <div class="card">
-    <div class="emoji">🐱❤️</div>
-    <h1 id="question">Regi, will you be my Valentine?</h1>
-
-    <div class="buttons">
-        <button id="yesBtn" onclick="nextQuestion()">Yes</button>
-        <button id="noBtn" onmouseover="moveNo()">No</button>
-    </div>
+    <h2 id="question">Regi, will you be my Valentine? ❤️</h2>
+    <button id="yesBtn" onclick="nextQuestion()">Yes</button>
+    <button id="noBtn" onmouseover="moveNo()">No</button>
 </div>
 
 <script>
 
-let yesSize = 16;
-let questionIndex = 0;
+let index = 0;
 
 const questions = [
-    "Regi, will you be my Valentine?",
-    "Will you go on a cute coffee date with me? ☕💕",
-    "Can I steal at least one selfie with you? 📸🥰",
-    "Promise to smile when you see me? 😊💘",
-    "So… does this mean I’m the luckiest person today? 😌❤️"
+    "Regi, will you be my Valentine? ❤️",
+    "Will you go on a coffee date with me? ☕",
+    "Can I make you smile every day? 😊",
+    "So... are we official now? 😌",
+    "You just made my day 💖"
 ];
 
-function moveNo() {
-    const noBtn = document.getElementById("noBtn");
-    const yesBtn = document.getElementById("yesBtn");
-
-    const maxX = window.innerWidth - noBtn.offsetWidth;
-    const maxY = window.innerHeight - noBtn.offsetHeight;
-
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-
-    noBtn.style.position = "fixed";
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-
-    yesSize += 2;
-    yesBtn.style.fontSize = yesSize + "px";
-}
-
 function nextQuestion() {
+    index++;
 
-    const pop = new Audio("https://www.soundjay.com/buttons/sounds/button-09.mp3");
-    pop.play();
-
-    questionIndex++;
-
-    if (questionIndex < questions.length) {
-        document.getElementById("question").innerText = questions[questionIndex];
+    if (index < questions.length) {
+        document.getElementById("question").innerText = questions[index];
     } else {
-        showFinalScreen();
+        document.querySelector(".card").innerHTML =
+            "<h2>Yayyyy 💖🥰 I’m so happy!</h2>";
     }
 }
 
-function showFinalScreen() {
-    document.querySelector(".card").innerHTML = `
-        <div class="emoji">💖🥰💖</div>
-        <h1>You officially said YES to everything 😌💘</h1>
-        <p>I owe you coffee now ☕❤️</p>
-    `;
+function moveNo() {
+    const no = document.getElementById("noBtn");
+
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+
+    no.style.left = x + "px";
+    no.style.top = y + "px";
 }
 
 function createHeart() {
     const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "💖";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (Math.random() * 20 + 15) + "px";
-    document.body.appendChild(heart);
-
-    setTimeout(() => {
-        heart.remove();
-    }, 6000);
-}
-
-setInterval(createHeart, 500);
-
-</script>
-
-</body>
-</html>
+    heart.clas
