@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Will you be my Valentine?</title>
-
 <style>
     body {
         height: 100vh;
@@ -13,7 +12,6 @@
         align-items: center;
         background: linear-gradient(135deg, #ffd1dc, #ffe6eb);
         font-family: 'Arial', sans-serif;
-        overflow: hidden;
     }
 
     .card {
@@ -22,8 +20,8 @@
         border-radius: 20px;
         text-align: center;
         box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        width: 350px;
         position: relative;
+        width: 350px;
     }
 
     .emoji {
@@ -49,7 +47,6 @@
         font-size: 16px;
         border-radius: 25px;
         cursor: pointer;
-        transition: all 0.2s ease;
     }
 
     #yesBtn {
@@ -71,7 +68,6 @@
 </head>
 
 <body>
-
 <div class="card">
     <div class="emoji">🐱❤️</div>
     <h1>Regi, will you be my Valentine?</h1>
@@ -85,24 +81,27 @@
 </div>
 
 <script>
+    function moveNo() {
+        const noBtn = document.getElementById("noBtn");
+        const card = document.querySelector(".card");
 
-function moveNo() {
-    const noBtn = document.getElementById("noBtn");
+        const maxX = card.clientWidth - noBtn.offsetWidth;
+        const maxY = card.clientHeight - noBtn.offsetHeight;
 
-    const maxX = window.innerWidth - noBtn.offsetWidth;
-    const maxY = window.innerHeight - noBtn.offsetHeight;
+        const x = Math.random() * maxX;
+        const y = Math.random() * maxY;
 
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    }
 
-    noBtn.style.position = "fixed";
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-}
-
-function yesClicked() {
-    document.querySelector(".card").innerHTML = `
-        <div class="emoji">💖🥰💖</div>
-        <h1>Yay! 💕</h1>
-        <p>You just made my
-
+    function yesClicked() {
+        document.querySelector(".card").innerHTML = `
+            <div class="emoji">💖🥰💖</div>
+            <h1>Yay! 💕</h1>
+            <p>You just made my day, Regi 💘</p>
+        `;
+    }
+</script>
+</body>
+</html>
