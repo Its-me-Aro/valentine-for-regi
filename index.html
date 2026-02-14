@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Will you be my Valentine?</title>
+
 <style>
     body {
         height: 100vh;
@@ -12,6 +13,7 @@
         align-items: center;
         background: linear-gradient(135deg, #ffd1dc, #ffe6eb);
         font-family: 'Arial', sans-serif;
+        overflow: hidden;
     }
 
     .card {
@@ -20,8 +22,9 @@
         border-radius: 20px;
         text-align: center;
         box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        position: relative;
         width: 350px;
+        position: relative;
+        z-index: 10;
     }
 
     .emoji {
@@ -47,6 +50,7 @@
         font-size: 16px;
         border-radius: 25px;
         cursor: pointer;
+        transition: all 0.3s ease;
     }
 
     #yesBtn {
@@ -64,13 +68,28 @@
         font-size: 12px;
         color: gray;
     }
+
+    /* Floating hearts */
+    .heart {
+        position: fixed;
+        bottom: -10px;
+        font-size: 20px;
+        animation: floatUp 6s linear infinite;
+        opacity: 0.6;
+    }
+
+    @keyframes floatUp {
+        0% { transform: translateY(0); opacity: 0.6; }
+        100% { transform: translateY(-110vh); opacity: 0; }
+    }
 </style>
 </head>
 
 <body>
+
 <div class="card">
     <div class="emoji">🐱❤️</div>
-    <h1>Regi, will you be my Valentine?</h1>
+    <h1 id="question">Regi, will you be my Valentine?</h1>
 
     <div class="buttons">
         <button id="yesBtn" onclick="yesClicked()">Yes</button>
@@ -81,27 +100,66 @@
 </div>
 
 <script>
-    function moveNo() {
-        const noBtn = document.getElementById("noBtn");
-        const card = document.querySelector(".card");
 
-        const maxX = card.clientWidth - noBtn.offsetWidth;
-        const maxY = card.clientHeight - noBtn.offsetHeight;
+let yesSize = 16;
 
-        const x = Math.random() * maxX;
-        const y = Math.random() * maxY;
+function moveNo() {
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
 
-        noBtn.style.left = x + "px";
-        noBtn.style.top = y + "px";
-    }
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
 
-    function yesClicked() {
-        document.querySelector(".card").innerHTML = `
-            <div class="emoji">💖🥰💖</div>
-            <h1>Yay! 💕</h1>
-            <p>You just made my day, Regi 💘</p>
-        `;
-    }
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.position = "fixed";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    // Make Yes button bigger each time No runs
+    yesSize += 2;
+    yesBtn.style.fontSize = yesSize + "px";
+}
+
+function yesClicked() {
+    const card = document.querySelector(".card");
+    card.innerHTML = `
+        <div class="emoji">💖🥰💖</div>
+        <h1 id="typing"></h1>
+    `;
+
+    typeMessage("You just made my day, Regi 💘");
+}
+
+function typeMessage(text) {
+    const typing = document.getElementById("typing");
+    let i = 0;
+
+    const interval = setInterval(() => {
+        typing.innerHTML += text.charAt(i);
+        i++;
+        if (i >= text.length) clearInterval(interval);
+    }, 60);
+}
+
+// Create floating hearts
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
+}
+
+setInterval(createHeart, 500);
+
 </script>
+
 </body>
 </html>
