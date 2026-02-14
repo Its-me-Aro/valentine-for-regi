@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Will you be my Valentine?</title>
+<title>Important Questions ❤️</title>
 
 <style>
     body {
@@ -12,7 +12,7 @@
         justify-content: center;
         align-items: center;
         background: linear-gradient(135deg, #ffd1dc, #ffe6eb);
-        font-family: 'Arial', sans-serif;
+        font-family: Arial, sans-serif;
         overflow: hidden;
     }
 
@@ -22,7 +22,7 @@
         border-radius: 20px;
         text-align: center;
         box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        width: 350px;
+        width: 380px;
         position: relative;
         z-index: 10;
     }
@@ -33,8 +33,9 @@
     }
 
     h1 {
-        font-size: 22px;
+        font-size: 20px;
         margin-bottom: 30px;
+        min-height: 60px;
     }
 
     .buttons {
@@ -63,13 +64,6 @@
         position: absolute;
     }
 
-    .note {
-        margin-top: 50px;
-        font-size: 12px;
-        color: gray;
-    }
-
-    /* Floating hearts */
     .heart {
         position: fixed;
         bottom: -10px;
@@ -92,16 +86,23 @@
     <h1 id="question">Regi, will you be my Valentine?</h1>
 
     <div class="buttons">
-        <button id="yesBtn" onclick="yesClicked()">Yes</button>
+        <button id="yesBtn" onclick="nextQuestion()">Yes</button>
         <button id="noBtn" onmouseover="moveNo()">No</button>
     </div>
-
-    <div class="note">"No" seems a bit shy 😼</div>
 </div>
 
 <script>
 
 let yesSize = 16;
+let questionIndex = 0;
+
+const questions = [
+    "Regi, will you be my Valentine?",
+    "Will you go on a cute coffee date with me? ☕💕",
+    "Can I steal at least one selfie with you? 📸🥰",
+    "Promise to smile when you see me? 😊💘",
+    "So… does this mean I’m the luckiest person today? 😌❤️"
+];
 
 function moveNo() {
     const noBtn = document.getElementById("noBtn");
@@ -117,33 +118,32 @@ function moveNo() {
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 
-    // Make Yes button bigger each time No runs
     yesSize += 2;
     yesBtn.style.fontSize = yesSize + "px";
 }
 
-function yesClicked() {
-    const card = document.querySelector(".card");
-    card.innerHTML = `
+function nextQuestion() {
+
+    const pop = new Audio("https://www.soundjay.com/buttons/sounds/button-09.mp3");
+    pop.play();
+
+    questionIndex++;
+
+    if (questionIndex < questions.length) {
+        document.getElementById("question").innerText = questions[questionIndex];
+    } else {
+        showFinalScreen();
+    }
+}
+
+function showFinalScreen() {
+    document.querySelector(".card").innerHTML = `
         <div class="emoji">💖🥰💖</div>
-        <h1 id="typing"></h1>
+        <h1>You officially said YES to everything 😌💘</h1>
+        <p>I owe you coffee now ☕❤️</p>
     `;
-
-    typeMessage("You just made my day, Regi 💘");
 }
 
-function typeMessage(text) {
-    const typing = document.getElementById("typing");
-    let i = 0;
-
-    const interval = setInterval(() => {
-        typing.innerHTML += text.charAt(i);
-        i++;
-        if (i >= text.length) clearInterval(interval);
-    }, 60);
-}
-
-// Create floating hearts
 function createHeart() {
     const heart = document.createElement("div");
     heart.classList.add("heart");
